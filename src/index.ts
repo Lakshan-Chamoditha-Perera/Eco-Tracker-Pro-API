@@ -1,0 +1,33 @@
+import dotenv from 'dotenv';
+import express from 'express';
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+
+import * as process from "process";
+import UserRoutes from "./routes/user.routes";
+
+dotenv.config();
+
+const ObjectId = require('mongoose').Types.ObjectId;
+
+const app = express();
+
+
+app.listen(3001, () => {
+    console.log('server started at http://localhost:3001');
+});
+app.use(bodyParser.json());
+
+mongoose.connect(process.env.MONGO_URL as string).then(() => {
+    console.log("connected to mongodb");
+}).catch((err) => {
+    console.log("error connecting to mongodb", err);
+})
+mongoose.connection.on("error", (err) => {
+    console.log("error connecting to mongodb", err);
+})
+
+const cors = require('cors');
+app.use(cors());
+
+app.use('/user', UserRoutes)
