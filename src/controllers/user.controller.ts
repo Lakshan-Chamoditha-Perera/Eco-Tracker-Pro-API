@@ -2,15 +2,16 @@ import express from "express";
 import UserModel from "../model/user.model";
 import StandardResponse from "../response/StandardResponse";
 import * as SchemaTypes from "../types/SchemaTypes";
-import jwt, {Secret} from 'jsonwebtoken';
-import {nameRegex} from "../util/validations";
+import jwt, { Secret } from 'jsonwebtoken';
+import { nameRegex } from "../util/validations";
+import CustomerModel from "../model/customer.model";
 
 
 function validateUserData(userdto: any) {
-    if (!userdto.fname && !nameRegex.test(userdto.fname)) {
+    if (!userdto.customer.fname && !nameRegex.test(userdto.customer.fname)) {
         throw new Error("Invalid first name");
     }
-    if (!userdto.lname && !nameRegex.test(userdto.lname)) {
+    if (!userdto.customer.lname && !nameRegex.test(userdto.customer.lname)) {
         throw new Error("Invalid last name");
     }
     if (!userdto.email && !nameRegex.test(userdto.email)) {
@@ -21,47 +22,87 @@ function validateUserData(userdto: any) {
     }
     return true;
 }
+async function getOnGoingCustomerId() {
+    try {
+        const lastCustomer = await CustomerModel.findOne().sort({ createdAt: -1 }).limit(1).exec();
+
+        if (!lastCustomer) {
+            return "C001";
+        }
+
+        const lastCustomerId = lastCustomer.customer_id;
+        const nextCustomerId = incrementCustomerId(lastCustomerId);
+        return nextCustomerId;
+    } catch (error) {
+        console.error("Error getting the last customer ID:", error);
+        throw error;
+    }
+}
+
+function incrementCustomerId(lastCustomerId: string) {
+    const lastIdNumber = parseInt(lastCustomerId.slice(1), 10);
+    const nextIdNumber = lastIdNumber + 1;
+    const nextCustomerId = `C${nextIdNumber.toString().padStart(3, "0")}`;
+    return nextCustomerId;
+}
 
 export const signup = async (req: express.Request, res: express.Response) => {
     try {
-        let userdto = req.body;
+        const userdto = req.body;
+        console.log(userdto);
+
         if (userdto && validateUserData(userdto)) {
-            let userModel = new UserModel({
-                fname: userdto.fname, lname: userdto.lname, email: userdto.email, password: userdto.password
-            });
-            let user = await UserModel.findOne({email: userdto.email});
-            if (user) {
-                console.log("user already exists");
-                res.status(409).send(new StandardResponse(409, "User already exists", null));
-                return;
+            const existingUser = await UserModel.findOne({ email: userdto.email });
+
+            if (existingUser) {
+                console.log("User already exists");
+                return res.status(409).send(new StandardResponse(409, "User already exists", null));
             }
-            let savedUser: SchemaTypes.IUser | null = await userModel.save();
+
+            const customerId = await getOnGoingCustomerId();  // Await the result here
+
+            const newCustomer = new CustomerModel({
+                customer_id: customerId,
+                fname: userdto.customer.fname,
+                lname: userdto.customer.lname,
+            });
+
+            const savedCustomer = await newCustomer.save();
+
+            const newUser = new UserModel({
+                email: userdto.email,
+                password: userdto.password,
+                customer: savedCustomer._id,
+            });
+
+            const savedUser = await newUser.save();
+
             if (savedUser) {
-                console.log("saved");
-                res.status(200).send(new StandardResponse(200, "User created successfully", savedUser));
+                return res.status(200).send(new StandardResponse(200, "User created successfully", savedUser));
             } else {
-                console.log("not saved");
-                res.status(500).send(new StandardResponse(500, "Something went wrong", null));
+                console.log("User not saved");
+                return res.status(500).send(new StandardResponse(500, "Something went wrong", null));
             }
         } else {
-            res.status(400).send(new StandardResponse(400, "Invalid data", null));
+            return res.status(400).send(new StandardResponse(400, "Invalid data", null));
         }
-    } catch (err: any) {
-        console.log(err);
-        res.status(500).send(new StandardResponse(500, "Something went wrong!", null));
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send(new StandardResponse(500, "Something went wrong!", null));
     }
-}
+};
+
 // ---------------------------------------------------------------------------------------------------------------------
 export const signin = async (req: express.Request, res: express.Response) => {
     console.log('sign in')
 
     async function generateToken() {
-        return jwt.sign({email: req.body.email}, process.env.JWT_SECRET as Secret, {expiresIn: "2w"});
+        return jwt.sign({ email: req.body.email }, process.env.JWT_SECRET as Secret, { expiresIn: "2w" });
     }
 
     try {
         let login_req = req.body;
-        let user: SchemaTypes.IUser | null = await UserModel.findOne({email: login_req.email});
+        let user: SchemaTypes.IUser | null = await UserModel.findOne({ email: login_req.email });
         if (user) {
             if (user.password == login_req.password) {
                 let token = await generateToken();
