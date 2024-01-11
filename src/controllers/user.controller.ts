@@ -6,7 +6,7 @@ import jwt, { Secret } from 'jsonwebtoken';
 import { nameRegex } from "../util/validations";
 import CustomerModel from "../model/customer.model";
 
-
+// ---------------------------------------------------------------------------------------------------------------------
 function validateUserData(userdto: any) {
     if (!userdto.customer.fname && !nameRegex.test(userdto.customer.fname)) {
         throw new Error("Invalid first name");
@@ -117,3 +117,21 @@ export const signin = async (req: express.Request, res: express.Response) => {
         res.status(500).send(new StandardResponse(500, "Something went wrong", null));
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+export const getUserByEmail = async (req: express.Request, res: express.Response) => {
+    console.log('get user by email : ' + req.query.email)
+    try {
+        let user: SchemaTypes.IUser | null = await UserModel.findOne({ email: req.query.email });
+        if (user) {
+            res.status(200).send(new StandardResponse(200, "User found", user));
+        } else {
+            res.status(404).send(new StandardResponse(404, "User not found", null));
+        }
+    } catch (err) {
+        res.status(500).send(new StandardResponse(500, "Something went wrong", null));
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
