@@ -168,7 +168,6 @@ export const getUserByEmail = async (
       .send(new StandardResponse(500, "Something went wrong", null));
   }
 };
-
 // ---------------------------------------------------------------------------------------------------------------------
 export const getCustomerByEmail = async (
   req: express.Request,

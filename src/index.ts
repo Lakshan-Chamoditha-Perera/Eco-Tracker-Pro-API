@@ -7,6 +7,7 @@ import * as process from "process";
 
 import UserRoutes from "./routes/user.routes";
 import ServiceRoutes from "./routes/service.routes";
+import ItemRoutes from "./routes/item.routes";
 
 dotenv.config();
 
