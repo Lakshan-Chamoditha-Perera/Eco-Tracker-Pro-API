@@ -2,6 +2,7 @@ import express from "express";
 import StandardResponse from "../response/StandardResponse";
 import ServiceModel from "../model/service.model";
 import { IService } from "types/SchemaTypes";
+
 function generateNextServiceId() {
   return ServiceModel.findOne()
     .sort({ service_id: -1 })
@@ -81,6 +82,15 @@ export const getById = async (req: express.Request, res: express.Response) => {
         const service = await ServiceModel.findOne({service_id: serviceId});
         console.log(service);
         res.send(new StandardResponse(200, "Success", service));
+    } catch (error) {
+        res.send(new StandardResponse(500, "Something went wrong", error));
+    }
+}
+
+export const getOngoingServiceId = async (req: express.Request, res: express.Response) => {
+    try {
+        let id = await generateNextServiceId();
+        res.send(new StandardResponse(200, "Success", id));
     } catch (error) {
         res.send(new StandardResponse(500, "Something went wrong", error));
     }
