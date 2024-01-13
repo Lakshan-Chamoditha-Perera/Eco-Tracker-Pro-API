@@ -73,3 +73,15 @@ export const getAll = async (req: express.Request, res: express.Response) => {
     res.send(new StandardResponse(500, "Something went wrong", error));
   }
 };
+
+
+export const getById = async (req: express.Request, res: express.Response) => {
+    try {
+        const serviceId = req.query.service_id;
+        const service = await ServiceModel.findOne({service_id: serviceId});
+        console.log(service);
+        res.send(new StandardResponse(200, "Success", service));
+    } catch (error) {
+        res.send(new StandardResponse(500, "Something went wrong", error));
+    }
+}
