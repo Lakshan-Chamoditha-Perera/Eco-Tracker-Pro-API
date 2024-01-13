@@ -35,3 +35,12 @@ export interface IService extends Document {
     availability: boolean;
     remarks: string;
 }
+
+export interface IItem extends Document {
+    id: string;
+    name: string;
+    price: number;
+    qty: number;
+    description: string;
+    image: string;
+}
