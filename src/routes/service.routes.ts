@@ -10,6 +10,7 @@ router.get('/getAll', ServiceController.getAll);
 router.get('/getById', ServiceController.getById);
 router.get('/getOngoingServiceId', ServiceController.getOngoingServiceId);
 router.delete('/delete', ServiceController.deleteService);
+router.put('/update', ServiceController.updateService);
 
 
 export default router;
