@@ -4,7 +4,9 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
 import * as process from "process";
+
 import UserRoutes from "./routes/user.routes";
+import ServiceRoutes from "./routes/service.routes";
 
 dotenv.config();
 
@@ -31,3 +33,5 @@ const cors = require('cors');
 app.use(cors());
 
 app.use('/user', UserRoutes)
+// ---------------------------------------------------------------------------------------------------------------------
+app.use("/service", ServiceRoutes);

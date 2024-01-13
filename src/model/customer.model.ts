@@ -3,7 +3,6 @@ import { ICustomer } from "../types/SchemaTypes";
 import { IAddress } from "../types/SchemaTypes";
 
 const customerSchema = new mongoose.Schema({
-    customer_id: { type: String, unique: true },
     fname: { type: String },
     lname: { type: String },
     gender: { type: String },

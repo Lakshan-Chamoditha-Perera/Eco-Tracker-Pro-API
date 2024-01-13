@@ -26,3 +26,12 @@ export interface IUser extends Document {
     createdAt: Date;
     customer: ICustomer;
 }
+
+export interface IService extends Document {
+    service_id: string;
+    name: string;
+    description: string;
+    price: number;
+    availability: boolean;
+    remarks: string;
+}
