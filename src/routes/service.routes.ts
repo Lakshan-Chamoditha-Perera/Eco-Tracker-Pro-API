@@ -6,6 +6,7 @@ import {verifyToken} from "../middlewares";
 const router = express.Router();
 
 router.post('/save', ServiceController.save);
+router.get('/getAll', ServiceController.getAll);
 
 
 

@@ -2,18 +2,16 @@ import express from "express";
 import StandardResponse from "../response/StandardResponse";
 import ServiceModel from "../model/service.model";
 import { IService } from "types/SchemaTypes";
-
 function generateNextServiceId() {
-  console.log("generateNextServiceId");
   return ServiceModel.findOne()
-    .sort({ createdAt: -1 })
+    .sort({ service_id: -1 })
     .limit(1)
     .exec()
     .then((lastService) => {
-      console.log("lastService", lastService);
       if (lastService) {
         const lastServiceId = lastService.service_id;
         const lastIdNumber = parseInt(lastServiceId.slice(1), 10);
+        console.log("lastIdNumber", lastIdNumber);
         const nextIdNumber = lastIdNumber + 1;
         const nextServiceId = `S${nextIdNumber.toString().padStart(3, "0")}`;
         return nextServiceId;
@@ -66,3 +64,12 @@ function validateServiceDto(serviceDto: IService) {
   console.log("service validated");
   return true;
 }
+
+export const getAll = async (req: express.Request, res: express.Response) => {
+  try {
+    const services = await ServiceModel.find();
+    res.send(new StandardResponse(200, "Success", services));
+  } catch (error) {
+    res.send(new StandardResponse(500, "Something went wrong", error));
+  }
+};
