@@ -9,5 +9,7 @@ router.post('/save', ServiceController.save);
 router.get('/getAll', ServiceController.getAll);
 router.get('/getById', ServiceController.getById);
 router.get('/getOngoingServiceId', ServiceController.getOngoingServiceId);
+router.delete('/delete', ServiceController.deleteService);
+
 
 export default router;

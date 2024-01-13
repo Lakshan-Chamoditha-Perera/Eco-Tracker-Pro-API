@@ -95,3 +95,13 @@ export const getOngoingServiceId = async (req: express.Request, res: express.Res
         res.send(new StandardResponse(500, "Something went wrong", error));
     }
 }
+
+export const deleteService = async (req: express.Request, res: express.Response) => {
+    try {
+        const serviceId = req.query.service_id;
+        const service = await ServiceModel.findOneAndDelete({service_id: serviceId});
+        res.send(new StandardResponse(200, "Success", service));
+    } catch (error) {
+        res.send(new StandardResponse(500, "Something went wrong", error));
+    }
+}
