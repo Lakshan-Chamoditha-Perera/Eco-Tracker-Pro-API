@@ -67,6 +67,7 @@ function validateServiceDto(serviceDto: IService) {
 }
 
 export const getAll = async (req: express.Request, res: express.Response) => {
+  console.log("getAll called");
   try {
     const services = await ServiceModel.find();
     res.send(new StandardResponse(200, "Success", services));
@@ -75,33 +76,43 @@ export const getAll = async (req: express.Request, res: express.Response) => {
   }
 };
 
-
 export const getById = async (req: express.Request, res: express.Response) => {
-    try {
-        const serviceId = req.query.service_id;
-        const service = await ServiceModel.findOne({service_id: serviceId});
-        console.log(service);
-        res.send(new StandardResponse(200, "Success", service));
-    } catch (error) {
-        res.send(new StandardResponse(500, "Something went wrong", error));
-    }
-}
+  try {
+    const serviceId = req.query.service_id;
+    console.log(serviceId);
+    const service = await ServiceModel.findOne({ service_id: serviceId });
+    console.log(service);
+    res.send(new StandardResponse(200, "Success", service));
+  } catch (error) {
+    res.send(new StandardResponse(500, "Something went wrong", error));
+  }
+};
 
-export const getOngoingServiceId = async (req: express.Request, res: express.Response) => {
-    try {
-        let id = await generateNextServiceId();
-        res.send(new StandardResponse(200, "Success", id));
-    } catch (error) {
-        res.send(new StandardResponse(500, "Something went wrong", error));
-    }
-}
+export const getOngoingServiceId = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    let id = await generateNextServiceId();
+    res.send(new StandardResponse(200, "Success", id));
+  } catch (error) {
+    res.send(new StandardResponse(500, "Something went wrong", error));
+  }
+};
 
-export const deleteService = async (req: express.Request, res: express.Response) => {
-    try {
-        const serviceId = req.query.service_id;
-        const service = await ServiceModel.findOneAndDelete({service_id: serviceId});
-        res.send(new StandardResponse(200, "Success", service));
-    } catch (error) {
-        res.send(new StandardResponse(500, "Something went wrong", error));
-    }
-}
+export const deleteService = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  console.log("delete service called");
+
+  try {
+    const serviceId = req.query.service_id;
+    console.log(serviceId);
+    const service = await ServiceModel.deleteOne({ service_id: serviceId });
+    console.log("deleted service");
+    res.send(new StandardResponse(200, "Success", service));
+  } catch (error) {
+    res.send(new StandardResponse(500, "Something went wrong", error));
+  }
+};
