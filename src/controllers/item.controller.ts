@@ -27,10 +27,47 @@ export const saveItem = async (req: express.Request, res: express.Response) => {
 };
 
 // update-------------------------------------------------------------------------------------------------------------------
-async function updateItem(req: express.Request, res: express.Response) {
-  let isExits = await ItemModel.exists({ _id: req.body._id });
-  console.log(isExits);
-}
+export const updateItem = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    let isExits = await ItemModel.exists({ _id: req.body._id });
+
+    let updatedItem = await ItemModel.updateOne(
+      { _id: req.body._id },
+      {
+        $set: {
+          name: req.body.name,
+          description: req.body.description,
+          price: req.body.price,
+          qty: req.body.qty,
+        },
+      }
+    );
+    console.log(updatedItem);
+    res.send(new StandardResponse(200, "Item updated", updateItem));
+  } catch (err) {
+    res.send(new StandardResponse(404, "Item not exists", null));
+  }
+};
 // delete-------------------------------------------------------------------------------------------------------------------
+
+export const deleteItem = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  const id = req.query.id;
+  console.log(id);
+  try {
+    let isExits = await ItemModel.exists({ _id: id });
+    let deletedItem = await ItemModel.deleteOne({ _id: id });
+    console.log(deletedItem);
+    res.send(new StandardResponse(200, "Item deleted", deletedItem));
+  } catch (err) {
+    res.send(new StandardResponse(404, "Item not exists", null));
+  }
+};
+
 // get by id----------------------------------------------------------------------------------------------------------------
 // update qty---------------------------------------------------------------------------------------------------------------
