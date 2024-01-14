@@ -1,7 +1,7 @@
 import express from "express";
 import StandardResponse from "../response/StandardResponse";
 import ServiceModel from "../model/service.model";
-import { IService } from "types/SchemaTypes";
+import { IService } from "../types/SchemaTypes";
 
 function generateNextServiceId() {
   return ServiceModel.findOne()
