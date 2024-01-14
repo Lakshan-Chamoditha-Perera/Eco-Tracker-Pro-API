@@ -60,10 +60,9 @@ export const deleteItem = async (
   const id = req.query.id;
   console.log(id);
   try {
-    let isExits = await ItemModel.exists({ _id: id });
-    let deletedItem = await ItemModel.deleteOne({ _id: id });
-    console.log(deletedItem);
-    res.send(new StandardResponse(200, "Item deleted", deletedItem));
+    await ItemModel.exists({ _id: id });
+    await ItemModel.deleteOne({ _id: id });
+    res.send(new StandardResponse(200, "Item deleted"));
   } catch (err) {
     res.send(new StandardResponse(404, "Item not exists", null));
   }
