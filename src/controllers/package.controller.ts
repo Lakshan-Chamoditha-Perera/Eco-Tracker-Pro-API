@@ -47,6 +47,24 @@ const validatePackage = (packageDto: IPackage) => {
   if (!(packageDto.remarks && packageDto.remarks.length > 0)) {
     throw new Error("Invalid package remarks");
   }
-  
+
   return true;
+};
+
+// delete---------------------------------------------------------------------------------------------------------------------
+export const deletePackage = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    let id = req.query.id;
+    if (id) {
+      let packageObj = await PackageModel.deleteOne({ _id: id });
+      res.send(new StandardResponse(200, "Package deleted", packageObj));
+    } else {
+      res.send(new StandardResponse(400, "Invalid package id", null));
+    }
+  } catch (err) {
+    res.send(new StandardResponse(500, "Something went wrong", err));
+  }
 };

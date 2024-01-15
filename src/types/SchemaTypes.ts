@@ -47,10 +47,12 @@ export interface IItem extends Document {
 
 
 export interface IPackage extends Document {
-    package_id: string;
+    _id: string;
     name: string;
     description: string;
     price: number;
     availability: boolean;
     remarks: string;
 }
+
+// example for Package
