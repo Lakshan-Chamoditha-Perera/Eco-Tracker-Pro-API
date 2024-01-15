@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IPackage } from "types/SchemaTypes";
 
 const packageSchema = new mongoose.Schema({
     package_id: { type: String },
@@ -6,9 +7,8 @@ const packageSchema = new mongoose.Schema({
     description: { type: String },
     price: { type: Number },
     availability: { type: Boolean },
-    remarks: { type: String },
-    renewal_duration:{String}
+    remarks: { type: String }
 });
 
-const PackageModel = mongoose.model("Package", packageSchema);
+const PackageModel = mongoose.model<IPackage>("Package", packageSchema);
 export default PackageModel;

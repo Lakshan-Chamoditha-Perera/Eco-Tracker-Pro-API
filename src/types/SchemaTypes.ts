@@ -53,5 +53,4 @@ export interface IPackage extends Document {
     price: number;
     availability: boolean;
     remarks: string;
-    renewal_duration: string;
 }
