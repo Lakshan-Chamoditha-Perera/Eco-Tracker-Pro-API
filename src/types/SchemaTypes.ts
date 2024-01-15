@@ -44,3 +44,14 @@ export interface IItem extends Document {
     description: string;
     image: string;
 }
+
+
+export interface IPackage extends Document {
+    package_id: string;
+    name: string;
+    description: string;
+    price: number;
+    availability: boolean;
+    remarks: string;
+    renewal_duration: string;
+}

@@ -122,6 +122,7 @@ export const updateService = async (
   res: express.Response
 ) => {
   console.log("update service called");
+
   try {
     const serviceDto: IService = req.body;
     console.log(serviceDto);
@@ -130,7 +131,8 @@ export const updateService = async (
       serviceDto
     );
     console.log("updated service");
-    res.send(new StandardResponse(200, "Success", service));
+    res.send(new StandardResponse(200,
+       "Success", service));
   } catch (error) {
     res.send(new StandardResponse(500, "Something went wrong", error));
   }
