@@ -3,7 +3,7 @@ import ItemModel from "../model/item.model";
 import { IItem } from "../types/SchemaTypes";
 import StandardResponse from "../response/StandardResponse";
 
-// getAll---------------------------------------------------------------------------------------------------------------------
+// getAll-------------------------------------------------------------------------------------------------------------------
 export const getAllItems = async (
   req: express.Request,
   res: express.Response
@@ -16,7 +16,10 @@ export const getAllItems = async (
   }
 };
 // save---------------------------------------------------------------------------------------------------------------------
-export const saveItem = async (req: express.Request, res: express.Response) => {
+export const saveItem = async (
+  req: express.Request, 
+  res: express.Response
+  ) => {
   try {
     let item = await ItemModel.create(req.body);
 
@@ -25,7 +28,6 @@ export const saveItem = async (req: express.Request, res: express.Response) => {
     res.send(new StandardResponse(500, "Something went wrong", null));
   }
 };
-
 // update-------------------------------------------------------------------------------------------------------------------
 export const updateItem = async (
   req: express.Request,
@@ -52,7 +54,6 @@ export const updateItem = async (
   }
 };
 // delete-------------------------------------------------------------------------------------------------------------------
-
 export const deleteItem = async (
   req: express.Request,
   res: express.Response

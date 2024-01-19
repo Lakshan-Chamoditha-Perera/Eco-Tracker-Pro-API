@@ -1,7 +1,6 @@
 import express from "express";
 import StandardResponse from "../response/StandardResponse";
 import OrderModel from "../model/order.model";
-import { save } from "./service.controller";
 import { IOrder } from "types/SchemaTypes";
 
 export const saveOrder = async (
