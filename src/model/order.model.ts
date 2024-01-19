@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IOrder } from "types/SchemaTypes";
 
 const orderSchema = new mongoose.Schema({
   order_id: { type: String },
@@ -9,5 +10,5 @@ const orderSchema = new mongoose.Schema({
   user: { type: Object },
 });
 
-const OrderModel = mongoose.model("order", orderSchema);
+const OrderModel = mongoose.model<IOrder>("order", orderSchema);
 export default OrderModel;

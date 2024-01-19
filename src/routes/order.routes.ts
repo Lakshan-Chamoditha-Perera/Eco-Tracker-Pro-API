@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.post("/save", OrderController.saveOrder);
 router.get("/getAll", OrderController.getAllOrders);
-// router.get("/getById", OrderController.getOrderById);
+router.get("/getCount", OrderController.getOrdersCount);
+router.get("/getTotal", OrderController.getOrdersTotal);
 
 export default router;
