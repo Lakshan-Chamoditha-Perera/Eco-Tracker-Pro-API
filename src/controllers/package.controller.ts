@@ -58,6 +58,7 @@ export const deletePackage = async (
 ) => {
   try {
     let id = req.query.id;
+    console.log(id);
     if (id) {
       let packageObj = await PackageModel.deleteOne({ _id: id });
       res.send(new StandardResponse(200, "Package deleted", packageObj));

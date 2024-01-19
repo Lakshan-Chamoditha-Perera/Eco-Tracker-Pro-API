@@ -9,6 +9,7 @@ import UserRoutes from "./routes/user.routes";
 import ServiceRoutes from "./routes/service.routes";
 import ItemRoutes from "./routes/item.routes";
 import PackageRoutes from "./routes/package.routes";
+import OrderRoutes from "./routes/order.routes";
 
 dotenv.config();
 
@@ -41,3 +42,6 @@ app.use("/service", ServiceRoutes);
 app.use('/item',ItemRoutes)
 // ---------------------------------------------------------------------------------------------------------------------
 app.use('/package',PackageRoutes )
+// ---------------------------------------------------------------------------------------------------------------------
+app.use('/order',OrderRoutes) 
+
