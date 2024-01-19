@@ -15,3 +15,15 @@ export const saveOrder = async (
     res.send(new StandardResponse(500, "Something went wrong", null));
   }
 };
+
+export const getAllOrders = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    let orders = await OrderModel.find();
+    res.send(new StandardResponse(200, "Orders fetched", orders));
+  } catch (err) {
+    res.send(new StandardResponse(500, "Something went wrong", null));
+  }
+});
