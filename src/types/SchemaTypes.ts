@@ -62,3 +62,12 @@ export interface IOrder extends Document {
   date: Date;
   user: IUser;
 }
+
+export interface IBooking extends Document {
+  booking_id: string;
+  user: IUser;
+  service: IService;
+  date: Date;
+  status: string;
+  total: number;
+}
