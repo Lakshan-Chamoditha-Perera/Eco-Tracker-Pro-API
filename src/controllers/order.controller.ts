@@ -48,11 +48,11 @@ export const getOrdersTotal = async (
   try {
     const orderList = await OrderModel.find();
 
-    let total :number = 0;
+    let total: number = 0;
     orderList.map((order: IOrder) => {
       total += order.total;
-    })
-    
+    });
+
     res.send(new StandardResponse(200, "Orders total fetched", total));
   } catch (err) {
     console.error("Error fetching orders total:", err);
