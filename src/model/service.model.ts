@@ -8,6 +8,7 @@ const serviceSchema = new mongoose.Schema({
     price: { type: Number },
     availability: { type: Boolean },
     remarks: { type: String },
+    img_url: { type: String },
 });
 
 const ServiceModel = mongoose.model<IService>("Service", serviceSchema);

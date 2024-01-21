@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-import express from 'express';
+import dotenv from "dotenv";
+import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
@@ -15,37 +15,42 @@ import ImagesController from "./controllers/image.controller";
 
 dotenv.config();
 
-const ObjectId = require('mongoose').Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 
 const app = express();
 
-
 app.listen(3001, () => {
-    console.log('server started at http://localhost:3001');
+  console.log("server started at http://localhost:3001");
 });
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGO_URL as string).then(() => {
+mongoose
+  .connect(process.env.MONGO_URL as string)
+  .then(() => {
     console.log("connected to mongodb");
-}).catch((err) => {
+  })
+  .catch((err) => {
     console.log("error connecting to mongodb", err);
-})
+  });
 mongoose.connection.on("error", (err) => {
-    console.log("error connecting to mongodb", err);
-})
+  console.log("error connecting to mongodb", err);
+});
 
-const cors = require('cors');
+const cors = require("cors");
 app.use(cors());
 
-app.use('/user', UserRoutes)
+app.use("/user", UserRoutes);
 // ---------------------------------------------------------------------------------------------------------------------
 app.use("/service", ServiceRoutes);
 // ---------------------------------------------------------------------------------------------------------------------
-app.use('/item',ItemRoutes)
+app.use("/item", ItemRoutes);
 // ---------------------------------------------------------------------------------------------------------------------
-app.use('/package',PackageRoutes )
+app.use("/package", PackageRoutes);
 // ---------------------------------------------------------------------------------------------------------------------
-app.use('/order',OrderRoutes) 
+app.use("/order", OrderRoutes);
+
+
+
 
 //----------------------------------------------------------------------------------------------------------------------
-app.use('/image', ImagesController);
+app.use("/image", ImagesController);

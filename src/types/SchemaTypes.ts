@@ -34,6 +34,7 @@ export interface IService extends Document {
   price: number;
   availability: boolean;
   remarks: string;
+  img_url: string;
 }
 
 export interface IItem extends Document {
