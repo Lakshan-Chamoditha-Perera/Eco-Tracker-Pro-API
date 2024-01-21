@@ -16,10 +16,7 @@ export const getAllItems = async (
   }
 };
 // save---------------------------------------------------------------------------------------------------------------------
-export const saveItem = async (
-  req: express.Request, 
-  res: express.Response
-  ) => {
+export const saveItem = async (req: express.Request, res: express.Response) => {
   try {
     let item = await ItemModel.create(req.body);
 
@@ -71,3 +68,5 @@ export const deleteItem = async (
 
 // get by id----------------------------------------------------------------------------------------------------------------
 // update qty---------------------------------------------------------------------------------------------------------------
+
+

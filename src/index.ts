@@ -11,6 +11,8 @@ import ItemRoutes from "./routes/item.routes";
 import PackageRoutes from "./routes/package.routes";
 import OrderRoutes from "./routes/order.routes";
 
+import ImagesController from "./controllers/image.controller";
+
 dotenv.config();
 
 const ObjectId = require('mongoose').Types.ObjectId;
@@ -45,3 +47,5 @@ app.use('/package',PackageRoutes )
 // ---------------------------------------------------------------------------------------------------------------------
 app.use('/order',OrderRoutes) 
 
+//----------------------------------------------------------------------------------------------------------------------
+app.use('/image', ImagesController);
